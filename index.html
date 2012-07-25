@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Pymail : 可以方便使用imap接收邮件并解析中文邮件，提取附件，并且发送邮件\nhh" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Pymail</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/paramiao/pyMail">View on GitHub</a>
+
+          <h1 id="project_title">Pymail</h1>
+          <h2 id="project_tagline">可以方便使用imap接收邮件并解析中文邮件，提取附件，并且发送邮件\nhh</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/paramiao/pyMail/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/paramiao/pyMail/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>pyMail</h2>
+
+<p>This is a mail helper, which help you more easy to send or receive mail with python, especially for the user who lives in a 'unicode' country, e.g. China.</p>
+
+<p>这是一个可以帮助你更好的使用python收发邮件的项目，尤其是对unicode的处理，可以完美支持中文。只需几行代码就可以去除繁琐的邮件解析，中文解析的操作。</p>
+
+<h3>Description</h3>
+
+<p><strong>ReceiveMailDealer</strong> is a class help you to receive mail.It could do the work that use IMAP to receive the mails, and
+use 'email' to parse the mail. So you can get the mail infomation directly, just like below:
+<strong>ReceiveMailDealer</strong> 通过IMAP的方式收取邮件，它会自动收取，并且解析邮件的内容，包括对中文的处理，例如下面：</p>
+
+<div class="highlight"><pre><span class="c">#初始化接收邮件类</span>
+<span class="n">rml</span> <span class="o">=</span> <span class="n">mailUtils</span><span class="o">.</span><span class="n">ReceiveMailDealer</span><span class="p">(</span><span class="s">'mail_address'</span><span class="p">,</span><span class="s">'mail_pwd'</span><span class="p">,</span><span class="s">'imap.gmail.com'</span><span class="p">)</span>
+<span class="n">rml</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'INBOX'</span><span class="p">)</span>
+<span class="c">#获取未读邮件列表</span>
+<span class="k">print</span> <span class="n">rml</span><span class="o">.</span><span class="n">getUnread</span><span class="p">()</span><span class="c">#('OK',['1 2 3 4'])</span>
+<span class="c">#遍历未读邮件</span>
+<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">rml</span><span class="o">.</span><span class="n">getUnread</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="o">!=</span> <span class="s">''</span><span class="p">:</span>   
+        <span class="n">mailInfo</span> <span class="o">=</span> <span class="n">rml</span><span class="o">.</span><span class="n">getMailInfo</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'subject'</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'body'</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'html'</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'from'</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'to'</span><span class="p">]</span>
+        <span class="c">#遍历附件列表</span>
+        <span class="k">for</span> <span class="n">attachment</span> <span class="ow">in</span> <span class="n">mailInfo</span><span class="p">[</span><span class="s">'attachments'</span><span class="p">]:</span>
+            <span class="n">fileob</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">attachment</span><span class="p">[</span><span class="s">'name'</span><span class="p">],</span><span class="s">'wb'</span><span class="p">)</span>
+            <span class="n">fileob</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">attachment</span><span class="p">[</span><span class="s">'data'</span><span class="p">])</span>
+            <span class="n">fileob</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+<p><strong>SendMailDealer</strong> is a class help you to send the mails, you can set the mail body very convenient, no matter text, html or attachments, just like below:
+<strong>SendMailDealer</strong> 可以帮助你通过SMTP发送邮件，可以随意定制邮件的内容，包括纯文本，html或者附件，以下是示例代码：</p>
+
+<div class="highlight"><pre><span class="c">#初始化发送邮件类</span>
+<span class="n">sml</span> <span class="o">=</span> <span class="n">mailUtils</span><span class="o">.</span><span class="n">SendMailDealer</span><span class="p">(</span><span class="s">'mail_address'</span><span class="p">,</span><span class="s">'mail_pwd'</span><span class="p">,</span><span class="s">'smtp.gmail.com'</span><span class="p">)</span>
+<span class="c">#设置邮件信息</span>
+<span class="n">sml</span><span class="o">.</span><span class="n">setMailInfo</span><span class="p">(</span><span class="s">'paramiao#gmail.com'</span><span class="p">,</span><span class="s">'测试'</span><span class="p">,</span><span class="s">'正文'</span><span class="p">,</span><span class="s">'plain'</span><span class="p">,</span><span class="s">'/home/paramiao/resume.html'</span><span class="p">)</span>
+<span class="c">#发送邮件</span>
+<span class="n">sml</span><span class="o">.</span><span class="n">sendMail</span><span class="p">()</span>
+<span class="c">#除了上述之外还有其他方法随意添加</span>
+</pre></div>
+
+<h2>Installation</h2>
+
+<p>Install <strong>pyMail</strong> is very easy. Just edit your file adding the following:</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyMail</span>
+</pre></div>
+
+<h2>Contributors</h2>
+
+<p>paramiao:</p>
+
+<ul>
+<li>微博 - <a href="http://weibo.com/paramiao">http://weibo.com/paramiao</a>
+</li>
+<li>Github - <a href="http://github.com/paramiao">http://github.com/paramiao</a>
+</li>
+<li>Twitter - <a href="http://twitter.com/paramiao">http://twitter.com/paramiao</a>
+</li>
+</ul><h2>Bugs and Feedback</h2>
+
+<p>please mailto 'paramiao#gmail.com'</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Pymail maintained by <a href="https://github.com/paramiao">paramiao</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-33617695-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
