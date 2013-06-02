@@ -139,13 +139,15 @@ class ReceiveMailDealer:
 class SendMailDealer:
 
     #构造函数（用户名，密码，smtp服务器）
-    def __init__(self, user, passwd, smtp):
+    def __init__(self, user, passwd, smtp,port,usettls=False):
         self.mailUser = user  
         self.mailPassword = passwd
         self.smtpServer = smtp
-        self.mailServer = smtplib.SMTP(self.smtpServer, 587)  
-        self.mailServer.ehlo()  
-        self.mailServer.starttls()  
+        self.smtpPort   = port
+        self.mailServer = smtplib.SMTP(self.smtpServer, self.smtpPort)  
+        self.mailServer.ehlo()
+        if usettls:		
+            self.mailServer.starttls()  
         self.mailServer.ehlo()  
         self.mailServer.login(self.mailUser, self.mailPassword)
         self.msg = MIMEMultipart()
