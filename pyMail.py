@@ -237,7 +237,6 @@ class SendMailDealer:
             if attachmentFilePath:
                 self.msg.attach(self.getAttachmentFromFile(attachmentFilePath))
 
-    # 自定义邮件正文信息（正文内容，正文格式html或者plain）
     def addTextPart(self, text, text_type):
         '''
         添加邮件正文信息
@@ -246,7 +245,6 @@ class SendMailDealer:
         '''
         self.msg.attach(MIMEText(text, text_type, 'utf-8'))
 
-    # 增加附件（以流形式添加，可以添加网络获取等流格式）参数（文件名，文件流）
     def addAttachment(self, filename, filedata):
         '''
         直接添加附件，不通过文件
@@ -260,14 +258,12 @@ class SendMailDealer:
                         'attachment; filename="%s"' % str(Header(filename, 'utf8')))
         self.msg.attach(part)
 
-    # 通用方法添加邮件信息（MIMETEXT，MIMEIMAGE,MIMEBASE...）
     def addPart(self, part):
         '''
         添加邮件信息的通用方法（MIMETEXT，MIMTIMAGE,MIMEBASE）
         '''
         self.msg.attach(part)
 
-    # 发送邮件
     def sendMail(self):
         '''
         发送邮件
@@ -285,7 +281,6 @@ class SendMailDealer:
             logging.debug('Sent email to %s success!' % self.msg['To'])
             return True
 
-    # 通过路径添加附件
     def getAttachmentFromFile(self, attachmentFilePath):
         '''
         通过路径获取附件内容
