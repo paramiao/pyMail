@@ -148,11 +148,7 @@ If using VPN, ensure SMTP/IMAP ports (587, 993, 465) are not blocked.
 
 如果使用 VPN，确保 SMTP/IMAP 端口未被拦截。
 
-## Contributors
-paramiao:
-* 微博 - http://weibo.com/paramiao
-* Github - http://github.com/paramiao
-* Twitter - http://twitter.com/paramiao
+
 
 ## License
 
@@ -162,4 +158,5 @@ MIT License
 
 - GitHub Issues: https://github.com/paramiao/pyMail/issues
 - Email: paramiao#gmail.com
+
 
